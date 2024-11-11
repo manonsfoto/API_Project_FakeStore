@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/src/main.ts" defer></script>
+    <title>Fakestore API</title>
+  </head>
+  <body>
+    <header class="flex">
+      <h1>Super Fake Store</h1>
+      <nav class="flex">
+        <div class="inputWrapper flex">
+          <div>
+            <input type="text" id="textInput" placeholder="Search by title" />
+            <button type="button" id="btnSearch">Search</button>
+          </div>
+          <select id="selectInput">
+            <option value="">Sort by</option>
+            <option value="desc">desc</option>
+            <option value="asc">asc</option>
+          </select>
+        </div>
+        <div class="filterWrapper flex">
+          <p>Filter by Categories:</p>
+          <button type="button" id="btnFilterByElec">electronics</button>
+          <button type="button" id="btnFilterByJewel">jewelery</button>
+          <button type="button" id="btnFilterByMens">men's clothing</button>
+          <button type="button" id="btnFilterByWomens">women's clothing</button>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section id="cardsWrapper"></section>
+    </main>
+  </body>
+</html>

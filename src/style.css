@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "karla-regular";
+  src: url(../src/fonts/Karla-Regular.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: "karla-regular", "Courier New", Courier, monospace;
+}
+
+body {
+  /* width: 1440px; */
+  padding: 1rem 1rem 0 1rem;
+  margin: 0 auto;
+}
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+header,
+nav {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+header {
+  padding: 1rem;
+}
+
+.inputWrapper {
+  justify-content: space-between;
+  width: 100%;
+}
+.filterWrapper {
+  gap: 1rem;
+}
+section {
+  padding-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.productCard {
+  border: 1px solid black;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.priceDivOfCard {
+  padding: 1rem;
+  width: 100%;
+  justify-content: space-between;
+}
+.titleOfCard {
+  height: 8rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid black;
+  padding: 1rem;
+}
+img {
+  width: 40%;
+  height: 100%;
+}
+button,
+input,
+select {
+  font-family: "karla-regular", "Courier New", Courier, monospace;
+  padding: 0.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+section button {
+  background-color: rgb(255, 132, 0);
+  color: #fff;
+  border: none;
+}
+nav button {
+  background-color: rgb(121, 120, 118);
+  color: #fff;
+  border: none;
+}
+input[type="text"] {
+  width: 15rem;
+  margin-right: 1rem;
+}
+select {
+  width: 10rem;
+}
