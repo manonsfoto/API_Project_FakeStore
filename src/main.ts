@@ -1,5 +1,5 @@
 import "./style.css";
-
+// *========== DOM Elements ================
 const textInput = document.querySelector("#textInput") as HTMLInputElement;
 const btnSearch = document.querySelector("#btnSearch") as HTMLButtonElement;
 const selectInput = document.querySelector("#selectInput") as HTMLSelectElement;
@@ -17,14 +17,17 @@ const btnFilterByWomens = document.querySelector(
 ) as HTMLButtonElement;
 const cardsWrapper = document.querySelector("#cardsWrapper") as HTMLDivElement;
 
+// *=============================================
+
 type TProduct = {
   id: number;
   title: string;
   price: number;
   category: string;
-  description: string;
   image: string;
 };
+
+// *============ Function for Rendering the List===============
 
 function renderList(product: TProduct) {
   const productCard = document.createElement("div");
@@ -33,23 +36,30 @@ function renderList(product: TProduct) {
   const priceDivOfCard = document.createElement("div");
   const priceOfCard = document.createElement("p");
   const buttonOfCard = document.createElement("button");
-  // *=============================================
+
   imgOfCard.setAttribute("src", product.image);
   titleOfCard.textContent = product.title;
   priceOfCard.textContent = `$ ${product.price}`;
   buttonOfCard.textContent = "Add to cart";
-  // *=============================================
+  //  for CSS Selectors
   productCard.classList.add("productCard", "flex");
   priceDivOfCard.classList.add("priceDivOfCard", "flex");
   titleOfCard.classList.add("titleOfCard");
-  // *=============================================
+
   productCard.append(imgOfCard, titleOfCard, priceDivOfCard);
   priceDivOfCard.append(priceOfCard, buttonOfCard);
   cardsWrapper.appendChild(productCard);
 }
 
+// *=============================================
+
+let updatedList: TProduct[];
+
+// *========= function for fetching Products' Data ===================
+
 function fetchProducts(URL: string) {
   cardsWrapper.innerHTML = "";
+
   fetch(URL)
     .then((response: Response) => {
       if (!response.ok) {
@@ -59,9 +69,13 @@ function fetchProducts(URL: string) {
       return response.json();
     })
     .then((products: TProduct[]) => {
+      updatedList = [...products];
+
       products.forEach((product: TProduct) => {
         renderList(product);
       });
+
+      return updatedList;
     })
     .catch((error: Error) => {
       console.error(error);
@@ -69,7 +83,6 @@ function fetchProducts(URL: string) {
 }
 
 fetchProducts("https://fakestoreapi.com/products");
-sortProducts("https://fakestoreapi.com/products");
 
 btnFilterByElec?.addEventListener("click", () => {
   fetchProducts("https://fakestoreapi.com/products/category/electronics");
@@ -84,23 +97,10 @@ btnFilterByWomens?.addEventListener("click", () => {
   fetchProducts("https://fakestoreapi.com/products/category/women's clothing");
 });
 
-function sortProducts(URL: string) {
-  selectInput?.addEventListener("change", () => {
-    switch (selectInput.value) {
-      case "asc":
-        const ascURL = `${URL}?sort=asc`;
-        fetchProducts(ascURL);
-        break;
-      case "desc":
-        const descURL = `${URL}?sort=desc`;
-        fetchProducts(descURL);
-    }
-  });
-}
+// *========= button for searching function ===================
 
 btnSearch?.addEventListener("click", () => {
   const inputValue = textInput.value.trim().toLowerCase();
-  console.log(inputValue);
 
   cardsWrapper.innerHTML = "";
 
@@ -116,7 +116,8 @@ btnSearch?.addEventListener("click", () => {
       const filteredProducts = products.filter((product: TProduct) =>
         product.title.toLowerCase().includes(inputValue)
       );
-      return filteredProducts;
+      updatedList = [...filteredProducts];
+      return updatedList;
     })
     .then((products: TProduct[]) => {
       products.forEach((product: TProduct) => {
@@ -126,4 +127,32 @@ btnSearch?.addEventListener("click", () => {
     .catch((error: Error) => {
       console.error(error);
     });
+});
+
+// *========= functions for sorting by price ===================
+
+const sortHighPrice = (products: TProduct[]): TProduct[] => {
+  return products.sort((a: TProduct, b: TProduct) => b.price - a.price);
+};
+
+const sortLowPrice = (products: TProduct[]): TProduct[] => {
+  return products.sort((a: TProduct, b: TProduct) => a.price - b.price);
+};
+
+selectInput?.addEventListener("change", () => {
+  cardsWrapper.innerHTML = "";
+
+  switch (selectInput.value) {
+    case "highPrice":
+      sortHighPrice(updatedList).forEach((product: TProduct) => {
+        renderList(product);
+      });
+      break;
+
+    case "lowPrice":
+      sortLowPrice(updatedList).forEach((product: TProduct) => {
+        renderList(product);
+      });
+      break;
+  }
 });
